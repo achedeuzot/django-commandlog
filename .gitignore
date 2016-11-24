@@ -1,0 +1,12 @@
+dist/*
+django_model_utils.egg-info/*
+HGREV
+.coverage
+.tox/
+*.egg
+*.egg-info
+*.pyc
+htmlcov/
+docs/_build/
+.idea/
+.eggs/
