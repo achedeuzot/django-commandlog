@@ -22,13 +22,13 @@ Quick start
 
 3. To log an admin command, add the `@command_log` decorator above the class. It currently
 supports only custom management commands. If you wish to add this to default django manage commands
-you'll have to create a child class with the decorator. Pull/Merge requests are welcome with a fix for this. Example below:
+you'll have to create a child class with the decorator. Pull/Merge requests are welcome with a fix for this. Example below::
 
-	@command_log
-	class SampleCommand(BaseCommand):
+    @command_log
+    class SampleCommand(BaseCommand):
 
-		def handle(self, *args, **options):
-			...
+        def handle(self, *args, **options):
+            ...
 
 Requirements
 ------------
