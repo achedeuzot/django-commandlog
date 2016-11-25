@@ -40,7 +40,8 @@ setup(
     author_email='klemen@achedeuzot.me',
     install_requires=[
         "Django>=1.8",
-        "django-timestampable-model==0.1.3"
+        "six==1.10.0",
+        "django-timestampable-model==0.1.3",
     ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',

@@ -5,6 +5,7 @@ import traceback
 
 from functools import wraps
 
+from six import string_types
 from django.apps import apps
 from django.conf import settings
 from django.utils import timezone
@@ -116,7 +117,7 @@ def command_log(cls):
             self._cmdlog.imported_by_user = user
             self._cmdlog.imported_by_str = str(user)
             self._cmdlog.save()
-        elif isinstance(user, basestring):
+        elif isinstance(user, string_types):
             self._cmdlog.imported_by_str = user
             self._cmdlog.save()
         else:
