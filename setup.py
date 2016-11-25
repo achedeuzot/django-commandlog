@@ -18,7 +18,7 @@ long_description = "\n\n".join(long_desc(HERE))
 
 
 def get_version(root_path):
-    with open(os.path.join(root_path, 'django_etl', '__init__.py')) as f:
+    with open(os.path.join(root_path, 'django_commandlog', '__init__.py')) as f:
         for line in f:
             if line.startswith('__version__ ='):
                 return line.split('=')[1].strip().strip('"\'')
@@ -27,15 +27,15 @@ def get_version(root_path):
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name='django-etl',
+    name='django-commandlog',
     version=get_version(HERE),
     packages=find_packages(),
     include_package_data=True,
     license='BSD License',
-    description='A Django app for ETL - Extract Transform and Load',
+    description='A Django app to log management commands',
     long_description=long_description,
-    url='https://github.com/achedeuzot/django-etl',
-    download_url='https://github.com/achedeuzot/django-etl/tarball/' + get_version(HERE),
+    url='https://github.com/achedeuzot/django-commandlog',
+    download_url='https://github.com/achedeuzot/django-commandlog/tarball/' + get_version(HERE),
     author='Klemen Sever',
     author_email='klemen@achedeuzot.me',
     install_requires=[
@@ -55,6 +55,6 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
-    test_suite='django_etl.tests',
+    test_suite='django_commandlog.tests',
     zip_safe=False,
 )

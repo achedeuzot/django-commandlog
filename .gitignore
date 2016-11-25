@@ -1,5 +1,5 @@
 dist/*
-django_model_utils.egg-info/*
+django_commandlog.egg-info/
 HGREV
 .coverage
 .tox/

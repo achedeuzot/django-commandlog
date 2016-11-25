@@ -1,24 +1,34 @@
-======================================
-Django CmdLog - Django Command logging
-======================================
+==========================================
+Django CommandLog - Django Command logging
+==========================================
 
-Django CmdLog helps in adding the possibility to log django management commands. The log is then available in the admin interface.
+
+Django CommandLog adds the possibility to log django management commands. The log is then available in the admin interface.
 
 Quick start
 -----------
 
-1. Add "django_cmdlog" to your ``INSTALLED_APPS`` settings like this:
+1. Add "django_commandlog" to your ``INSTALLED_APPS`` settings like this:
 
 .. code-block:: python
 
     INSTALLED_APPS = [
         ...
-        'django_cmdlog',
+        'django_commandlog',
     ]
 
 
-2. Run `python manage.py makemigrations` then `python manage.py migrate` to add the columns
-of `django_cmdlog` models to your database.
+2. Run `python manage.py migrate` to add the tables of `django_commandlog` to your database.
+
+3. To log an admin command, add the `@command_log` decorator above the class. It currently
+supports only custom management commands. If you wish to add this to default django manage commands
+you'll have to create a child class with the decorator. Pull/Merge requests are welcome with a fix for this. Example below:
+
+	@command_log
+	class SampleCommand(BaseCommand):
+
+		def handle(self, *args, **options):
+			...
 
 Requirements
 ------------
