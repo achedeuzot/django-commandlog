@@ -63,11 +63,17 @@ through helper methods provided:
     add_deleted(30)
     add_errors(14)
 
+There are two fields used to track the commands or runs: reference and user.
+Reference is any number you want to track in your manage commands.
+
+You can also add a user to the tracking by using the `add_log_user(user)` method. `user` can be a string which will be kept as-is or you can use a `settings.AUTH_USER_MODEL` object.
+
 .. code-block:: python
 
-    reference 
-    imported_by_user
-    imported_by_str
+    add_log_reference("C1235342321")
+    add_log_user("user:ldap:username")
+    # or
+    add_log_user(user_instance)
 
 Requirements
 ------------

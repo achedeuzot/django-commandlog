@@ -10,7 +10,7 @@ from .app_settings import *
 class CommandLogAdmin(admin.ModelAdmin):
 
     list_display = ['__str__', 'reference', 'start_at', 'end_at', 'duration', 'success', 'total_crud']
-    list_filter = ['command_name', 'reference']
+    list_filter = ['command_name', ]
     readonly_fields = ['uuid', 'command_name', 'reference',
                        'start_at', 'end_at',
                        'success',
