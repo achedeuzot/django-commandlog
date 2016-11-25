@@ -28,16 +28,17 @@ class CommandLog(TimestampableModel, models.Model):
     # Generic field if you need to sort or filter your commands
     reference = models.CharField(max_length=255, editable=False)
 
-    imported_by_user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, editable=False)
+    imported_by_user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, editable=False,
+                                         on_delete=models.SET_NULL)
     imported_by_str = models.CharField(max_length=255, editable=False)
 
-    if ENABLE_COUNTER_FIELDS:
-        created = models.BigIntegerField(default=0, editable=False)
-        read = models.BigIntegerField(default=0, editable=False)
-        updated = models.BigIntegerField(default=0, editable=False)
-        deleted = models.BigIntegerField(default=0, editable=False)
+    # CRUD field counters
+    created = models.BigIntegerField(default=0, editable=False)
+    read = models.BigIntegerField(default=0, editable=False)
+    updated = models.BigIntegerField(default=0, editable=False)
+    deleted = models.BigIntegerField(default=0, editable=False)
 
-        errors = models.BigIntegerField(default=0, editable=False)
+    errors = models.BigIntegerField(default=0, editable=False)
 
     class Meta:
         verbose_name = _('command log')
@@ -61,9 +62,8 @@ class CommandLog(TimestampableModel, models.Model):
         else:
             return datetime.timedelta()
 
-    if ENABLE_COUNTER_FIELDS:
-        def get_total_crud(self):
-            return self.created + self.read + self.updated + self.deleted
+    def get_total_crud(self):
+        return self.created + self.read + self.updated + self.deleted
 
 
 @receiver(pre_save)

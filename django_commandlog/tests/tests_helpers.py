@@ -64,4 +64,3 @@ class OutputWrapperTestCase(TestCase):
         )
         with self.assertRaises(AttributeError):
             OutputTeeWrapper(sys.stdout, cmd_log, 'stdunknown')
-

@@ -9,23 +9,21 @@ from .app_settings import *
 
 class CommandLogAdmin(admin.ModelAdmin):
 
-    list_display = ['__str__', 'start_at', 'end_at', 'duration', 'success', 'reference']
+    list_display = ['__str__', 'reference', 'start_at', 'end_at', 'duration', 'success', 'total_crud']
     list_filter = ['command_name', 'reference']
     readonly_fields = ['uuid', 'command_name', 'reference',
                        'start_at', 'end_at',
                        'success',
                        'raw_output', 'stdout', 'stderr',
-                       'imported_by_user', 'imported_by_str', ]
-    if ENABLE_COUNTER_FIELDS:
-        readonly_fields += ['created', 'read', 'updated', 'deleted', 'errors']
+                       'imported_by_user', 'imported_by_str',
+                       'created', 'read', 'updated', 'deleted', 'errors']
 
     @staticmethod
     def duration(obj):
         return obj.get_duration()
 
-    if ENABLE_COUNTER_FIELDS:
-        @staticmethod
-        def total_crud(obj):
-            return obj.get_total_crud()
+    @staticmethod
+    def total_crud(obj):
+        return obj.get_total_crud()
 
 admin.site.register(CommandLog, CommandLogAdmin)

@@ -15,30 +15,20 @@ class CommandLogModelTestCase(TestCase):
     Test the CommandLog Mixin !
     """
 
-    def test_commandlog_model_without_counter_fields(self):
-        with override_settings(ENABLE_COUNTER_FIELDS=False):
-            inst = CommandLog()
-            inst.save()
-            self.assertIsNotNone(inst.uuid)
-            self.assertIsNotNone(inst.command_name)
-            self.assertIsNotNone(inst.start_at)
-            self.assertIsNone(inst.end_at)
-            self.assertIsNone(inst.success)
-
-    def test_commandlog_model_with_counter_fields(self):
-        with override_settings(ENABLE_COUNTER_FIELDS=True):
-            inst = CommandLog()
-            inst.save()
-            self.assertIsNotNone(inst.uuid)
-            self.assertIsNotNone(inst.command_name)
-            self.assertIsNotNone(inst.start_at)
-            self.assertIsNone(inst.end_at)
-            self.assertIsNone(inst.success)
-            self.assertEqual(inst.created, 0)
-            self.assertEqual(inst.read, 0)
-            self.assertEqual(inst.updated, 0)
-            self.assertEqual(inst.deleted, 0)
-            self.assertEqual(inst.errors, 0)
+    def test_commandlog_simple_model(self):
+        inst = CommandLog()
+        inst.save()
+        self.assertIsNotNone(inst.uuid)
+        self.assertIsNotNone(inst.command_name)
+        self.assertIsNotNone(inst.start_at)
+        self.assertIsNone(inst.end_at)
+        self.assertIsNone(inst.success)
+        self.assertEqual(inst.created, 0)
+        self.assertEqual(inst.read, 0)
+        self.assertEqual(inst.updated, 0)
+        self.assertEqual(inst.deleted, 0)
+        self.assertEqual(inst.errors, 0)
+        self.assertEqual(inst.get_total_crud(), 0)
 
     def test_commandlog_model_str_output_simple(self):
         inst = CommandLog()

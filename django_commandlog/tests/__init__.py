@@ -12,6 +12,8 @@ if not settings.configured:  # Prevent this from running in django installation
 	                           'NAME': ':memory:',
 	                       }
 	                   },
+	                   USE_TZ=True,
+	                   TIME_ZONE='UTC',
 	                   INSTALLED_APPS=('django.contrib.auth',
 	                                   'django.contrib.contenttypes',
 	                                   'django.contrib.sessions',

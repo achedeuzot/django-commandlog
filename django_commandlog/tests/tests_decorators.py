@@ -3,6 +3,8 @@ from __future__ import unicode_literals, print_function
 
 import sys
 
+from django.apps import apps
+from django.conf import settings
 from django.core.management import BaseCommand, call_command
 from django.test import TestCase
 from django.test import override_settings
@@ -38,12 +40,12 @@ class SampleCommand(BaseCommand):
             raise TestException
 
         if options.get('counters_enabled', False):
-            self.add_created(84)
-            self.add_read(42)
-            self.add_updated(21)
-            self.add_deleted(10)
+            self.add_log_created(84)
+            self.add_log_read(42)
+            self.add_log_updated(21)
+            self.add_log_deleted(10)
 
-            self.add_errors(5)
+            self.add_log_errors(5)
 
 
 class CommandLogDecoratorTestCase(TestCase):
@@ -62,12 +64,14 @@ class CommandLogDecoratorTestCase(TestCase):
 
     def test_sample_command_instanciation_with_conflicting_function_attribute(self):
         with no_output():
-            with override_settings(ENABLE_COUNTER_FIELDS=True):
-                class TestConflictingAttributeCommand(object):
-                    def add_created(self):
-                        pass
-                with self.assertRaises(AttributeError):
-                    command_log(TestConflictingAttributeCommand)
+            class TestConflictingAttributeCommand(object):
+                def handle(self):
+                    pass
+
+                def add_log_created(self):
+                    pass
+            with self.assertRaises(AttributeError):
+                command_log(TestConflictingAttributeCommand)
 
     def test_sample_command_can_be_called(self):
         with no_output():
@@ -97,17 +101,16 @@ class CommandLogDecoratorTestCase(TestCase):
         self.assertIsNotNone(cmd._cmdlog.end_at)  # End time should be set
         self.assertIsNotNone(cmd._cmdlog.traceback)
 
-    def test_counters_enabled(self):
+    def test_counters(self):
         with no_output():
-            with override_settings(ENABLE_COUNTER_FIELDS=True):
-                cmd = SampleCommand()
-                cmd.handle(counters_enabled=True)
-                self.assertEqual(cmd._cmdlog.created, 84)
-                self.assertEqual(cmd._cmdlog.read, 42)
-                self.assertEqual(cmd._cmdlog.updated, 21)
-                self.assertEqual(cmd._cmdlog.deleted, 10)
-                self.assertEqual(cmd._cmdlog.errors, 5)
-                self.assertEqual(cmd._cmdlog.get_total_crud(), 157)
+            cmd = SampleCommand()
+            cmd.handle(counters_enabled=True)
+            self.assertEqual(cmd._cmdlog.created, 84)
+            self.assertEqual(cmd._cmdlog.read, 42)
+            self.assertEqual(cmd._cmdlog.updated, 21)
+            self.assertEqual(cmd._cmdlog.deleted, 10)
+            self.assertEqual(cmd._cmdlog.errors, 5)
+            self.assertEqual(cmd._cmdlog.get_total_crud(), 157)
 
     def test_write_shortcuts(self):
         with no_output():
@@ -117,3 +120,33 @@ class CommandLogDecoratorTestCase(TestCase):
             cmd.write_notice("Notice message")
             cmd.write_error("ERROR message")
 
+    def test_add_reference(self):
+        test_ref = "R987654321"
+        with no_output():
+            cmd = SampleCommand()
+            cmd.add_log_reference(test_ref)
+            self.assertEqual(CommandLog.objects.get(reference=test_ref).reference, test_ref)
+
+    def test_add_log_user_str(self):
+        test_str = "user:ldap:username"
+        with no_output():
+            cmd = SampleCommand()
+            cmd.add_log_user(test_str)
+            self.assertEqual(CommandLog.objects.get(imported_by_str=test_str).imported_by_str, test_str)
+
+    def test_add_log_user_object(self):
+        UserModel = apps.get_model(settings.AUTH_USER_MODEL)
+        test_user = UserModel.objects.create(username="test",
+                                             email="test@example.com")
+        with no_output():
+            cmd = SampleCommand()
+            cmd.add_log_user(test_user)
+            self.assertEqual(CommandLog.objects.get(imported_by_user=test_user).imported_by_str, str(test_user))
+            self.assertEqual(CommandLog.objects.get(imported_by_user=test_user).imported_by_user, test_user)
+
+    def test_add_log_user_wrong_type(self):
+        test_user_wrong = True
+        with no_output():
+            cmd = SampleCommand()
+            with self.assertRaises(ValueError):
+                cmd.add_log_user(test_user_wrong)
