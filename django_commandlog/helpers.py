@@ -10,8 +10,8 @@ from django.utils.termcolors import RESET
 
 
 def uncolorize(msg):
-    start_pattern = re.compile(b'^\x1b\[[\d+;*]+m')
-    end_pattern = re.compile(b'\x1b\[%sm$' % str(RESET))
+    start_pattern = re.compile(u'^\x1b\[[\d+;*]+m')
+    end_pattern = re.compile(u'\x1b\[%sm$' % RESET)
     start_match = re.search(start_pattern, msg)
     end_match = re.search(end_pattern, msg)
     if start_match and end_match:
