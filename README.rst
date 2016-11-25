@@ -57,11 +57,11 @@ through helper methods provided:
 
 .. code-block:: python
 
-    add_created(10)
-    add_read(30)
-    add_updated(20)
-    add_deleted(30)
-    add_errors(14)
+    add_log_created(10)
+    add_log_read(30)
+    add_log_updated(20)
+    add_log_deleted(30)
+    add_log_errors(14)
 
 There are two fields used to track the commands or runs: reference and user.
 Reference is any number you want to track in your manage commands.
@@ -78,7 +78,7 @@ You can also add a user to the tracking by using the `add_log_user(user)` method
 Requirements
 ------------
 
-- python 2.7, 3.3
+- python 2.7, 3.4, 3.5
 - django 1.10
 
 
