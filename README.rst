@@ -3,7 +3,11 @@ Django CommandLog - Django Command logging
 ==========================================
 
 .. image:: https://travis-ci.org/achedeuzot/django-commandlog.svg?branch=master
-    :target: https://travis-ci.org/achedeuzot/django-commandlog.svg?branch=master
+    :target: https://travis-ci.org/achedeuzot/django-commandlog?branch=master
+
+.. image:: https://coveralls.io/repos/github/achedeuzot/django-commandlog/badge.svg?branch=master
+    :target: https://coveralls.io/github/achedeuzot/django-commandlog?branch=master
+
 
 
 Django CommandLog adds the possibility to log django management commands. The log is then available in the admin interface.
