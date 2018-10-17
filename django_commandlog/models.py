@@ -25,14 +25,12 @@ class CommandLog(TimestampableModel, models.Model):
     stderr = models.TextField(null=True, editable=False)
     traceback = models.TextField(null=True, editable=False)
 
-    # Generic field if you need to sort or filter your commands
     reference = models.CharField(max_length=255, editable=False)
 
     imported_by_user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, editable=False,
                                          on_delete=models.SET_NULL)
     imported_by_str = models.CharField(max_length=255, editable=False)
 
-    # CRUD field counters
     created = models.BigIntegerField(default=0, editable=False)
     read = models.BigIntegerField(default=0, editable=False)
     updated = models.BigIntegerField(default=0, editable=False)

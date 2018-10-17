@@ -66,7 +66,6 @@ def command_log(cls):
         self._cmdlog.save()
     _add_cmdlog_func(_add_to_counter, '_cmdlog_add_to_counter')
 
-    # CRUD helpers
     def add_log_created(self, value=1):
         self._cmdlog_add_to_counter('created', value)
     _add_cmdlog_func(add_log_created, 'add_log_created')
@@ -87,7 +86,6 @@ def command_log(cls):
         self._cmdlog_add_to_counter('errors', value)
     _add_cmdlog_func(add_log_errors, 'add_log_errors')
 
-    # Logging helpers
     def write_success(self, msg):
         self.stdout.write(self.style.SUCCESS(msg))
     _add_cmdlog_func(write_success, 'write_success')
@@ -104,13 +102,11 @@ def command_log(cls):
         self.stderr.write(self.style.ERROR(msg))
     _add_cmdlog_func(write_error, 'write_error')
 
-    # Add reference
     def add_log_reference(self, ref):
         self._cmdlog.reference = ref
         self._cmdlog.save()
     _add_cmdlog_func(add_log_reference, 'add_log_reference')
 
-    # Add User
     def add_log_user(self, user):
         UserModel = apps.get_model(settings.AUTH_USER_MODEL)
         if isinstance(user, UserModel):
